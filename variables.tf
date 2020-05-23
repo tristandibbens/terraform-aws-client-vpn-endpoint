@@ -1,24 +1,17 @@
-variable "aws_access_key" {}
+variable "prefix" {
+  description = "Prefix for resources created."
+}
 
-variable "aws_secret_key" {}
+variable "domain_suffix" {
+  default = "example.net"
+}
 
-variable "aws_region" {
-  default = "us-east-1"
+variable "subnet_ids" {
+  description = "The ID of the subnets to associate with the Client VPN endpoint."
+  type = list(string)
 }
 
 variable "client_cidr_block" {
-  description = "The IPv4 address range, in CIDR notation being /22 or greater, from which to assign client IP addresses"
+  description = "The vpn client IPv4 address cidr range between /12 and /22 from which to assign client IP addresses."
   default = "18.0.0.0/22"
-}
-
-variable "subnet_id" {
-  description = "The ID of the subnet to associate with the Client VPN endpoint."
-}
-
-variable "cert_dir" {
-  default = "vpn_certs"
-}
-
-variable "domain" {
-  default = "example.net"
 }

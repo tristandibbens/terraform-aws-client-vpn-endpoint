@@ -13,3 +13,4 @@ easy-rsa/*
 
 # exclude client vpn endpoint configuration file
 client-config.ovpn
+example/certs

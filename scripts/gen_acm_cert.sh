@@ -5,11 +5,15 @@ cd easy-rsa/easyrsa3
 ./easyrsa init-pki
 export EASYRSA_BATCH=1
 ./easyrsa build-ca nopass
-./easyrsa build-server-full server nopass
-./easyrsa build-client-full client1.$2 nopass
-mkdir ../../$1
-mv pki/ca.crt ../../$1/
-mv pki/issued/server.crt ../../$1/
-mv pki/private/server.key ../../$1/
-mv pki/issued/client1.$2.crt ../../$1/
-mv pki/private/client1.$2.key ../../$1/
+./easyrsa build-server-full server.$2 nopass
+./easyrsa build-client-full client.$2 nopass
+pwd
+echo PWD: $1
+test ! -d $1/certs && mkdir -p $1/certs
+mv pki/ca.crt $1/certs/
+mv pki/issued/server.$2.crt $1/certs/
+mv pki/private/server.$2.key $1/certs/
+mv pki/issued/client.$2.crt $1/certs/
+mv pki/private/client.$2.key $1/certs/
+cd ../..
+rm -rf easy-rsa

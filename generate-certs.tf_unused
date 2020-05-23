@@ -1,0 +1,10 @@
+resource "null_resource" "create_cert" {
+  provisioner "local-exec" {
+    when = create
+    #command = "${path.module}/scripts/gen_acm_cert.sh `pwd` ${local.domain}"
+    command = "${path.module}/scripts/gen_acm_cert.sh ${path.cwd} ${local.domain}"
+  }
+  triggers = {
+    always_run = "${timestamp()}"
+  }
+}
