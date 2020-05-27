@@ -13,6 +13,10 @@ resource "aws_acm_certificate" "client_cert" {
   lifecycle {
     ignore_changes = all
   }
+
+  tags = {
+    Name = "client.${local.domain}"
+  }
 }
 
 resource "aws_acm_certificate" "server_cert" {
@@ -23,6 +27,10 @@ resource "aws_acm_certificate" "server_cert" {
   # Don't replace cert if you re-run the script to generate certs. For ci/cd use.
   lifecycle {
     ignore_changes = all
+  }
+
+  tags = {
+    Name = "server.${local.domain}"
   }
 }
 
