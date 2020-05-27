@@ -8,12 +8,22 @@ resource "aws_acm_certificate" "client_cert" {
   private_key       = file("${path.root}/certs/client.${local.domain}.key")
   certificate_body  = file("${path.root}/certs/client.${local.domain}.crt")
   certificate_chain = file("${path.root}/certs/ca.crt")
+
+  # Don't replace cert if you re-run the script to generate certs. For ci/cd use.
+  lifecycle {
+    ignore_changes = all
+  }
 }
 
 resource "aws_acm_certificate" "server_cert" {
   private_key       = file("${path.root}/certs/server.${local.domain}.key")
   certificate_body  = file("${path.root}/certs/server.${local.domain}.crt")
   certificate_chain = file("${path.root}/certs/ca.crt")
+
+  # Don't replace cert if you re-run the script to generate certs. For ci/cd use.
+  lifecycle {
+    ignore_changes = all
+  }
 }
 
 resource "aws_ec2_client_vpn_endpoint" "client-vpn-endpoint" {

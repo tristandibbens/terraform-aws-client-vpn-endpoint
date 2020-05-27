@@ -7,8 +7,8 @@ export EASYRSA_BATCH=1
 ./easyrsa build-ca nopass
 ./easyrsa build-server-full server.$2 nopass
 ./easyrsa build-client-full client.$2 nopass
-pwd
-echo PWD: $1
+#pwd
+echo Certs will be written out to dir : $1/certs/
 test ! -d $1/certs && mkdir -p $1/certs
 mv pki/ca.crt $1/certs/
 mv pki/issued/server.$2.crt $1/certs/

@@ -55,14 +55,24 @@ Also check the [variables.tf](variables.tf) for what can be set.
 
 #### Generate Server and Client Certificates and Keys
 
-Using the `example` module config:
+
+The script is `scripts/gen_acm_cert.sh`, and takes args `<dir> <prefix>.<domain-suffix> # eg k1.example.net`
+
+Using the `example` module config; eg module source is `../`:
 
 ```
 $ cd example
-$ ../scripts/gen_acm_cert.sh <prefix>.<domain-suffix> # eg k1.example.net
+$ ../scripts/gen_acm_cert.sh `pwd` k1.example.net # eg k1.example.net
 ```
 
-If you are calling the module from github, rather than this checked out repo, you will need to copy the script down from github and install it locally somewhere.
+If your module source is github, try:
+
+```
+$ cd example
+$ ./.terraform/modules/<module-name>/scripts/gen_acm_cert.sh `pwd` k1.example.net # eg k1.example.net
+```
+
+Either way certs will be put in the pwd `./certs/`.
 
 Script will:
 * make a `certs` directory in the current directory
