@@ -38,6 +38,8 @@ resource "aws_ec2_client_vpn_endpoint" "client-vpn-endpoint" {
   description            = "${var.prefix} terraform-clientvpn-endpoint"
   server_certificate_arn = aws_acm_certificate.server_cert.arn
   client_cidr_block      = var.client_cidr_block
+  split_tunnel = var.split_tunnel
+  dns_servers = var.dns_servers
 
   authentication_options {
     type                       = "certificate-authentication"

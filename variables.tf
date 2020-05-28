@@ -15,3 +15,16 @@ variable "client_cidr_block" {
   description = "The vpn client IPv4 address cidr range between /12 and /22 from which to assign client IP addresses."
   default = "18.0.0.0/22"
 }
+
+# false: all trafic goes via the vpn
+# true: only vpn traffic goes to the vpn
+variable "split_tunnel" {
+  type = bool
+  default = false
+}
+
+# If not specified the vpn endpoint will set this to the vpcs default resolver, which is x.x.x.2
+variable "dns_servers" {
+  type = list(string)
+  default = []
+}
