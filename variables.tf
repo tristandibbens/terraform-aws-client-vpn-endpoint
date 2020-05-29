@@ -23,7 +23,7 @@ variable "split_tunnel" {
   default = false
 }
 
-# If not specified the vpn endpoint will set this to the vpcs default resolver, which is x.x.x.2
+# set this to the vpc default resolver, which is x.x.x.2
 variable "dns_servers" {
   type = list(string)
   default = []
