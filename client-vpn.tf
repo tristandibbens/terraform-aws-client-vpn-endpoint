@@ -41,7 +41,7 @@ resource "aws_ec2_client_vpn_endpoint" "client-vpn-endpoint" {
   split_tunnel = var.split_tunnel
   dns_servers = var.dns_servers
   vpc_id      = var.vpc_id
-  security_group_ids = [var.security_group_ids]
+  security_group_ids = var.security_group_ids
 
   authentication_options {
     type                        = var.client_auth
