@@ -38,6 +38,7 @@ variable "client_auth" {
 variable "saml_provider_arn" {
   description = "The arn of the pre configured SAML app"
   type = string
+  default = ""
 }
 
 variable "vpc_id" {
@@ -49,4 +50,10 @@ variable "security_group_ids" {
   description = "The security group ids required, must pass vpc ID as well"
   type = list(string)
   default = []
+}
+
+variable "cloudwatch_enabled" {
+  description = "Enables logging"
+  type = bool
+  default = true
 }
