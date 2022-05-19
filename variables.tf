@@ -57,3 +57,15 @@ variable "cloudwatch_enabled" {
   type = bool
   default = true
 }
+
+variable "cloudwatch_log_group" {
+  description = "The name of the cloudwatch log group."
+  type        = string
+  default = "vpn_endpoint_cloudwatch_log_group"
+}
+
+variable "cloudwatch_log_stream" {
+  description = "The name of the cloudwatch log stream."
+  type        = string
+  default = "vpn_endpoint_cloudwatch_log_stream"
+}
