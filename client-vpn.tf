@@ -78,19 +78,6 @@ resource "null_resource" "authorize-client-vpn-ingress" {
   ]
 }
 
-resource "null_resource" "create-client-vpn-route" {
-  count = length(var.subnet_ids)
-  provisioner "local-exec" {
-    when = create
-    command = "aws ec2 create-client-vpn-route --client-vpn-endpoint-id ${aws_ec2_client_vpn_endpoint.client-vpn-endpoint.id} --destination-cidr-block 0.0.0.0/0 --target-vpc-subnet-id ${var.subnet_ids[count.index]} --description Internet-Access"
-  }
-
-  depends_on = [
-    aws_ec2_client_vpn_endpoint.client-vpn-endpoint,
-    null_resource.authorize-client-vpn-ingress
-  ]
-}
-
 resource "null_resource" "export-client-config" {
   provisioner "local-exec" {
     when = create
