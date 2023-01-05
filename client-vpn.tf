@@ -78,19 +78,19 @@ resource "null_resource" "authorize-client-vpn-ingress" {
   ]
 }
 
-resource "null_resource" "export-client-config" {
-  provisioner "local-exec" {
-    when = create
-    command = "aws ec2 export-client-vpn-client-configuration --client-vpn-endpoint-id ${aws_ec2_client_vpn_endpoint.client-vpn-endpoint.id} --output text > ./client-config.ovpn"
-  }
-
-  depends_on = [
-    aws_ec2_client_vpn_endpoint.client-vpn-endpoint,
-    null_resource.authorize-client-vpn-ingress,
-    #null_resource.create-client-vpn-route,
-    aws_ec2_client_vpn_network_association.client-vpn-network-association,
-  ]
-}
+#resource "null_resource" "export-client-config" {
+#  provisioner "local-exec" {
+#    when = create
+#    command = "aws ec2 export-client-vpn-client-configuration --client-vpn-endpoint-id ${aws_ec2_client_vpn_endpoint.client-vpn-endpoint.id} --output text > ./client-config.ovpn"
+#  }
+#
+#  depends_on = [
+#    aws_ec2_client_vpn_endpoint.client-vpn-endpoint,
+#    null_resource.authorize-client-vpn-ingress,
+#    #null_resource.create-client-vpn-route,
+#    aws_ec2_client_vpn_network_association.client-vpn-network-association,
+#  ]
+#}
 
 resource "null_resource" "append-client-config-certs" {
   provisioner "local-exec" {
