@@ -80,7 +80,7 @@ resource "null_resource" "authorize-client-vpn-ingress" {
 
 resource "null_resource" "export-client-config" {
   provisioner "local-exec" {
-    when = update
+    when = create
     command = "aws ec2 export-client-vpn-client-configuration --client-vpn-endpoint-id ${aws_ec2_client_vpn_endpoint.client-vpn-endpoint.id} --output text > ./client-config.ovpn"
   }
 
@@ -94,7 +94,7 @@ resource "null_resource" "export-client-config" {
 
 resource "null_resource" "append-client-config-certs" {
   provisioner "local-exec" {
-    #when = create
+    when = create
     command = "${path.module}/scripts/add_certs_to_client_config.sh ${local.domain} ${local.dns_servers}"
   }
 
