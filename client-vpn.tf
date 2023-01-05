@@ -80,7 +80,7 @@ resource "null_resource" "authorize-client-vpn-ingress" {
 
 resource "null_resource" "export-client-config" {
   provisioner "local-exec" {
-    when = create
+    when = update
     command = "aws ec2 export-client-vpn-client-configuration --client-vpn-endpoint-id ${aws_ec2_client_vpn_endpoint.client-vpn-endpoint.id} --output text > ./client-config.ovpn"
   }
 
