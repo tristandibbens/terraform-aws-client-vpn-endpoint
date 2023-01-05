@@ -40,14 +40,19 @@ resource "aws_ec2_client_vpn_endpoint" "client-vpn-endpoint" {
   client_cidr_block      = var.client_cidr_block
   split_tunnel = var.split_tunnel
   dns_servers = var.dns_servers
+  vpc_id      = var.vpc_id
+  security_group_ids = var.security_group_ids
 
   authentication_options {
-    type                       = "certificate-authentication"
-    root_certificate_chain_arn = aws_acm_certificate.client_cert.arn
+    type                        = var.client_auth
+    root_certificate_chain_arn  = aws_acm_certificate.client_cert.arn
+    saml_provider_arn           = var.saml_provider_arn
   }
 
   connection_log_options {
-    enabled = false
+    enabled               = var.cloudwatch_enabled
+    cloudwatch_log_group  = aws_cloudwatch_log_group.client_vpn.name
+    cloudwatch_log_stream = aws_cloudwatch_log_stream.client_vpn.name
   }
 
   tags = {
@@ -73,19 +78,6 @@ resource "null_resource" "authorize-client-vpn-ingress" {
   ]
 }
 
-resource "null_resource" "create-client-vpn-route" {
-  count = length(var.subnet_ids)
-  provisioner "local-exec" {
-    when = create
-    command = "aws ec2 create-client-vpn-route --client-vpn-endpoint-id ${aws_ec2_client_vpn_endpoint.client-vpn-endpoint.id} --destination-cidr-block 0.0.0.0/0 --target-vpc-subnet-id ${var.subnet_ids[count.index]} --description Internet-Access"
-  }
-
-  depends_on = [
-    aws_ec2_client_vpn_endpoint.client-vpn-endpoint,
-    null_resource.authorize-client-vpn-ingress
-  ]
-}
-
 resource "null_resource" "export-client-config" {
   provisioner "local-exec" {
     when = create
@@ -108,5 +100,15 @@ resource "null_resource" "append-client-config-certs" {
 
   depends_on = [null_resource.export-client-config]
 }
+
+resource "aws_cloudwatch_log_group" "client_vpn" {
+  name = var.cloudwatch_log_group
+}
+
+resource "aws_cloudwatch_log_stream" "client_vpn" {
+  name           = var.cloudwatch_log_stream
+  log_group_name = aws_cloudwatch_log_group.client_vpn.name
+}
+
 /*
 */
