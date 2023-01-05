@@ -94,7 +94,7 @@ resource "null_resource" "export-client-config" {
 
 resource "null_resource" "append-client-config-certs" {
   provisioner "local-exec" {
-    when = create
+    #when = create
     command = "${path.module}/scripts/add_certs_to_client_config.sh ${local.domain} ${local.dns_servers}"
   }
 
