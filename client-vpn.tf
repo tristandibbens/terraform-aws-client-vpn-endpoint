@@ -10,9 +10,9 @@ resource "aws_acm_certificate" "client_cert" {
   certificate_chain = file("${path.root}/certs/ca.crt")
 
   # Don't replace cert if you re-run the script to generate certs. For ci/cd use.
-  lifecycle {
-    ignore_changes = all
-  }
+  #lifecycle {
+  #  ignore_changes = all
+  #}
 
   tags = {
     Name = "client.${local.domain}"
@@ -25,9 +25,9 @@ resource "aws_acm_certificate" "server_cert" {
   certificate_chain = file("${path.root}/certs/ca.crt")
 
   # Don't replace cert if you re-run the script to generate certs. For ci/cd use.
-  lifecycle {
-    ignore_changes = all
-  }
+  #lifecycle {
+  #  ignore_changes = all
+  #}
 
   tags = {
     Name = "server.${local.domain}"
