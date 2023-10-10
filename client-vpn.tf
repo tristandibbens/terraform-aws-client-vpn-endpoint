@@ -4,6 +4,14 @@
 // https://github.com/terraform-providers/terraform-provider-aws/issues/7831
 // https://github.com/terraform-providers/terraform-provider-aws/issues/7523
 
+terraform {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+    }
+  }
+}
+
 resource "aws_acm_certificate" "client_cert" {
   private_key       = file("${path.root}/certs/client.${local.domain}.key")
   certificate_body  = file("${path.root}/certs/client.${local.domain}.crt")
