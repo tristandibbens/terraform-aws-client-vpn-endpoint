@@ -108,7 +108,7 @@ resource "null_resource" "append-client-config-certs" {
     command = "${path.module}/scripts/add_certs_to_client_config.sh ${local.domain} ${local.dns_servers}"
   }
 
- # depends_on = [null_resource.export-client-config]
+ depends_on = [null_resource.export-client-config]
 }
 
 resource "aws_cloudwatch_log_group" "client_vpn" {
