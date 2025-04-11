@@ -96,8 +96,7 @@ resource "null_resource" "export-client-config" {
 
   depends_on = [
     aws_ec2_client_vpn_endpoint.client-vpn-endpoint,
-    null_resource.authorize-client-vpn-ingress,
-    #null_resource.create-client-vpn-route,
+    aws_ec2_client_vpn_authorization_rule.allow_all,
     aws_ec2_client_vpn_network_association.client-vpn-network-association,
   ]
 }
