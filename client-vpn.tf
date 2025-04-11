@@ -74,19 +74,18 @@ resource "aws_ec2_client_vpn_network_association" "client-vpn-network-associatio
   subnet_id              = var.subnet_ids[count.index]
 }
 
-# Ran this manually
-resource "null_resource" "authorize-client-vpn-ingress" {
+resource "aws_ec2_client_vpn_authorization_rule" "allow_all" {
   count = var.update_certificate_toggle ? 0 : 1 # expectation is that we can pass a variable from the calling module and not edit the code pass true to destroy and re run with false
-  provisioner "local-exec" {
-    when = create
-    command = "aws ec2 authorize-client-vpn-ingress --client-vpn-endpoint-id ${aws_ec2_client_vpn_endpoint.client-vpn-endpoint.id} --target-network-cidr 0.0.0.0/0 --authorize-all-groups"
-  }
-
+  client_vpn_endpoint_id = aws_ec2_client_vpn_endpoint.client-vpn-endpoint.id
+  target_network_cidr    = "0.0.0.0/0"
+  authorize_all_groups   = true
+  description            = "Allow all clients access to all networks"
+  
   depends_on = [
-    aws_ec2_client_vpn_endpoint.client-vpn-endpoint,
     aws_ec2_client_vpn_network_association.client-vpn-network-association
   ]
 }
+
 
 resource "null_resource" "export-client-config" {
   count = var.update_certificate_toggle ? 0 : 1 # expectation is that we can pass a variable from the calling module and not edit the code pass true to destroy and re run with false
