@@ -102,6 +102,7 @@ resource "null_resource" "export-client-config" {
 }
 
 resource "null_resource" "append-client-config-certs" {
+  count = var.update_certificate_toggle ? 0 : 1 # expectation is that we can pass a variable from the calling module and not edit the code pass true to destroy and re run with false
   provisioner "local-exec" {
     when = create
     command = "${path.module}/scripts/add_certs_to_client_config.sh ${local.domain} ${local.dns_servers}"
