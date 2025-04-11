@@ -69,3 +69,10 @@ variable "cloudwatch_log_stream" {
   type        = string
   default = "vpn_endpoint_cloudwatch_log_stream"
 }
+
+variable "update_certificate_toggle" {
+  description = "if we want to toggle the null resources for certificate recreation"
+  type = bool
+  default = false
+}
+ 
